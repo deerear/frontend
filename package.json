@@ -17,11 +17,14 @@
     "@emotion/css": "^11.13.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.52.1",
+    "axios": "^1.7.7",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "sockjs-client": "^1.6.1",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
@@ -41,6 +44,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.9",
     "cypress": "^13.13.3",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
