@@ -14,7 +14,8 @@ const meta: Meta<typeof Button> = {
     children: 'Button',
     color: 'primary',
     size: 'medium',
-    disabled: false
+    disabled: false,
+    shape: 'default'
   },
   argTypes: {
     children: { control: { type: 'text' } },
@@ -32,7 +33,8 @@ const meta: Meta<typeof Button> = {
     },
     height: {
       control: { type: 'number', step: 50 }
-    }
+    },
+    shape: { options: ['default', 'rounded', 'circle'], control: { type: 'radio' } }
   }
 };
 export default meta;
@@ -40,13 +42,16 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Standard: Story = {
-  args: { variant: 'standard', rounded: false },
-  argTypes: {
-    rounded: { control: 'boolean' }
-  }
+  args: { variant: 'standard' },
+  argTypes: {}
 };
 
 export const Outlined: Story = {
   args: { variant: 'outlined' },
+  argTypes: {}
+};
+
+export const Text: Story = {
+  args: { variant: 'text' },
   argTypes: {}
 };
