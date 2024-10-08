@@ -1,12 +1,33 @@
 {
-  "extends": ["airbnb", "airbnb/hooks", "next/core-web-vitals", "plugin:cypress/recommended"],
   "env": {
-    "cypress/globals": true
+    "cypress/globals": true,
+    "jest": true
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.test.tsx"] }],
+    "prettier/prettier": ["error"],
+    "react/jsx-props-no-spreading": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
-  "plugins": ["cypress"]
+  "plugins": ["cypress", "prettier"],
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "next/core-web-vitals",
+    "plugin:cypress/recommended",
+    "plugin:prettier/recommended"
+  ]
 }
