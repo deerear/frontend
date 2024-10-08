@@ -10,12 +10,15 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
     "incremental": true,
     "paths": {
       "~/*": ["./src/*"]
     },
+    "baseUrl": "src",
+    "target": "es5",
+    "types": ["cypress", "node"],
     "plugins": [
       {
         "name": "next"
