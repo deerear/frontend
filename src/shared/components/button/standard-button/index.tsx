@@ -1,16 +1,11 @@
 import { css } from '@emotion/react';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
-
-import colors from '~/shared/styles/colors';
+import colors from 'shared/styles/colors';
 
 type Props = {
   color?: 'primary' | 'neutral';
   rounded: boolean | undefined;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
-
-const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', rounded = false, ...props }, ref) => {
-  return <button css={styles.container({ color, rounded, disabled: props.disabled })} {...props} ref={ref} />;
-});
 
 const styles = {
   container: ({
@@ -42,5 +37,11 @@ const styles = {
     `};
   `
 };
+
+const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', rounded = false, ...props }, ref) => (
+  <button css={styles.container({ color, rounded, disabled: props.disabled })} {...props} ref={ref} type='button' />
+));
+
+StandardButton.displayName = 'StandardButton';
 
 export default StandardButton;
