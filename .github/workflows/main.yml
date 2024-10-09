@@ -1,16 +1,23 @@
-name: CD Workflow
+name: Deploy
 
 on:
   push:
     branches:
-      - main
+      - develop
+
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+  DEPLOY_PATH: /home/ubuntu/deploy # EC2 서버의 배포 경로
 
 jobs:
   build:
+    environment: develop
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
       - name: Install pnpm
         run: sudo corepack enable
@@ -26,29 +33,30 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+      - name: Generate Environment Variables File
+        run: |
+          echo "NEXT_PUBLIC_MODE=$NEXT_PUBLIC_MODE" >> .env.development
+          echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.development
+          echo "NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID" >> .env.development
+          echo "NEXT_PUBLIC_GOOGLE_LOGIN_REDIRECT_URI=$NEXT_PUBLIC_GOOGLE_LOGIN_REDIRECT_URI" >> .env.development
+          echo "NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW=$NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW" >> .env.development
+        env:
+          NEXT_PUBLIC_MODE: ${{ secrets.NEXT_PUBLIC_MODE }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID }}
+          NEXT_PUBLIC_GOOGLE_LOGIN_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN_REDIRECT_URI }}
+          NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW: ${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW }}
 
-      - name: Build the project
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
         run: pnpm run build
 
-      - name: Save build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: .next
+      - name: Archive build files
+        run: zip -r build.zip .next node_modules package.json pnpm-lock.yaml .env.development
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: ${{ success() }}
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifacts
-
-      - name: Deploy to EC2
+      - name: Copy files to EC2
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
@@ -56,5 +64,19 @@ jobs:
         run: |
           echo "${EC2_SSH_KEY}" > ec2_key.pem
           chmod 600 ec2_key.pem
-          scp -o StrictHostKeyChecking=no -i ec2_key.pem -r .next/ ${EC2_USERNAME}@${EC2_HOST}:/path/to/deploy
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${EC2_USERNAME}@${EC2_HOST} "cd /path/to/deploy && pm2 restart app"
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem build.zip ${EC2_USERNAME}@${EC2_HOST}:${DEPLOY_PATH}
+
+      - name: Deploy on EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "${EC2_SSH_KEY}" > ec2_key.pem
+          chmod 600 ec2_key.pem
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${EC2_USERNAME}@${EC2_HOST} "
+            cd ${DEPLOY_PATH}
+            unzip -o build.zip
+            pnpm install --frozen-lockfile --prod
+            pm2 restart app || pm2 start .next/standalone/server.js --name app
+          "
