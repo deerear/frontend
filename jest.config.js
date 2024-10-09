@@ -5,9 +5,10 @@ const createJestConfig = nextJest({
 });
 
 /** @type {import('jest').Config} */
-const config = {
-  coverageProvider: 'v8',
-  testEnvironment: 'jsdom'
+const customJestConfig = {
+  preset: 'ts-jest',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jest-environment-jsdom'
 };
 
-module.exports = createJestConfig(config);
+module.exports = createJestConfig(customJestConfig);

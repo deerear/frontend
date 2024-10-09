@@ -18,13 +18,20 @@
     },
     "baseUrl": "src",
     "target": "es5",
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "jest", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "cypress/cypress.config.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "cypress/cypress.config.js",
+    "jest.setup.js"
+  ],
   "exclude": ["node_modules"]
 }
