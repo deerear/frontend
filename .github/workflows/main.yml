@@ -3,13 +3,13 @@ name: Deploy
 on:
   push:
     branches:
-      - develop
+      - feature/github-action
 
 env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
   EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
   EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-  DEPLOY_PATH: /home/ubuntu/deploy # EC2 서버의 배포 경로
+  DEPLOY_PATH: /home/ubuntu/deploy
 
 jobs:
   build:
@@ -48,7 +48,7 @@ jobs:
           NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW: ${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_PW }}
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build
         run: pnpm run build
