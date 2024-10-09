@@ -18,7 +18,9 @@ type Spacing = {
   unit100: Unit;
   unit150: Unit;
 
+  // eslint-disable-next-line no-unused-vars
   margin: ((value: PixelValue) => SerializedStyles) & {
+    // eslint-disable-next-line no-unused-vars
     top: (value: PixelValue) => SerializedStyles;
     top2: SerializedStyles;
     top4: SerializedStyles;
@@ -31,7 +33,7 @@ type Spacing = {
     top50: SerializedStyles;
     top100: SerializedStyles;
     top150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     bottom: (value: PixelValue) => SerializedStyles;
     bottom2: SerializedStyles;
     bottom4: SerializedStyles;
@@ -44,7 +46,7 @@ type Spacing = {
     bottom50: SerializedStyles;
     bottom100: SerializedStyles;
     bottom150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     left: (value: PixelValue) => SerializedStyles;
     left2: SerializedStyles;
     left4: SerializedStyles;
@@ -57,7 +59,7 @@ type Spacing = {
     left50: SerializedStyles;
     left100: SerializedStyles;
     left150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     right: (value: PixelValue) => SerializedStyles;
     right2: SerializedStyles;
     right4: SerializedStyles;
@@ -70,7 +72,7 @@ type Spacing = {
     right50: SerializedStyles;
     right100: SerializedStyles;
     right150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     x: (value: PixelValue) => SerializedStyles;
     x2: SerializedStyles;
     x4: SerializedStyles;
@@ -83,7 +85,7 @@ type Spacing = {
     x50: SerializedStyles;
     x100: SerializedStyles;
     x150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     y: (value: PixelValue) => SerializedStyles;
     y2: SerializedStyles;
     y4: SerializedStyles;
@@ -109,8 +111,9 @@ type Spacing = {
   margin50: SerializedStyles;
   margin100: SerializedStyles;
   margin150: SerializedStyles;
-
+  // eslint-disable-next-line no-unused-vars
   padding: ((value: PixelValue) => SerializedStyles) & {
+    // eslint-disable-next-line no-unused-vars
     top: (value: PixelValue) => SerializedStyles;
     top2: SerializedStyles;
     top4: SerializedStyles;
@@ -123,7 +126,7 @@ type Spacing = {
     top50: SerializedStyles;
     top100: SerializedStyles;
     top150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     bottom: (value: PixelValue) => SerializedStyles;
     bottom2: SerializedStyles;
     bottom4: SerializedStyles;
@@ -136,7 +139,7 @@ type Spacing = {
     bottom50: SerializedStyles;
     bottom100: SerializedStyles;
     bottom150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     left: (value: PixelValue) => SerializedStyles;
     left2: SerializedStyles;
     left4: SerializedStyles;
@@ -149,7 +152,7 @@ type Spacing = {
     left50: SerializedStyles;
     left100: SerializedStyles;
     left150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     right: (value: PixelValue) => SerializedStyles;
     right2: SerializedStyles;
     right4: SerializedStyles;
@@ -162,7 +165,7 @@ type Spacing = {
     right50: SerializedStyles;
     right100: SerializedStyles;
     right150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     x: (value: PixelValue) => SerializedStyles;
     x2: SerializedStyles;
     x4: SerializedStyles;
@@ -175,7 +178,7 @@ type Spacing = {
     x50: SerializedStyles;
     x100: SerializedStyles;
     x150: SerializedStyles;
-
+    // eslint-disable-next-line no-unused-vars
     y: (value: PixelValue) => SerializedStyles;
     y2: SerializedStyles;
     y4: SerializedStyles;
@@ -203,27 +206,31 @@ type Spacing = {
   padding150: SerializedStyles;
 };
 
+// eslint-disable-next-line no-unused-vars
 const spacing = {} as Spacing;
 
 const units: Unit[] = [2, 4, 6, 8, 10, 16, 20, 30, 50, 100, 150];
 const properties: Property[] = ['x', 'y', 'top', 'right', 'bottom', 'left'];
 
+// eslint-disable-next-line no-unused-vars
 const getStyle = (marginOrPadding: 'margin' | 'padding', option?: { [key in Property]?: Unit } | Unit | Property) => {
-  // spacing.margin(5)
+  // eslint-disable-next-line no-unused-vars
   if (!option) {
+    // eslint-disable-next-line no-unused-vars
     return (value: PixelValue) => css`
       ${`${marginOrPadding}: ${toPixelString(value)}`}
     `;
   }
 
-  // spacing.margin4
+  // eslint-disable-next-line no-unused-vars
   if (typeof option === 'number') {
+    // eslint-disable-next-line no-unused-vars
     return css`
       ${`${marginOrPadding}: ${toPixelString(option)}`}
     `;
   }
 
-  // spacing.margin.left(5)
+  // eslint-disable-next-line no-unused-vars
   if (typeof option === 'string') {
     let box: ('top' | 'right' | 'bottom' | 'left')[] = [];
 
@@ -252,12 +259,12 @@ const getStyle = (marginOrPadding: 'margin' | 'padding', option?: { [key in Prop
     }
 
     return (value: PixelValue) => {
+      // eslint-disable-next-line no-unused-vars
       const style = box.map((dir) => `${marginOrPadding}-${dir}: ${toPixelString(value)}`).join(';');
       return css(style);
     };
   }
 
-  // spacing.margin.left4
   if (typeof option === 'object') {
     const box: {
       top?: number;
@@ -267,9 +274,11 @@ const getStyle = (marginOrPadding: 'margin' | 'padding', option?: { [key in Prop
     } = {};
 
     if (option.x !== undefined) {
+      // eslint-disable-next-line no-multi-assign
       box.left = box.right = option.x;
     }
     if (option.y !== undefined) {
+      // eslint-disable-next-line no-multi-assign
       box.top = box.bottom = option.y;
     }
     if (option.top !== undefined) {
@@ -286,17 +295,20 @@ const getStyle = (marginOrPadding: 'margin' | 'padding', option?: { [key in Prop
     }
 
     const style = Object.entries(box)
+      // eslint-disable-next-line no-unused-vars
       .filter(([, value]) => value !== null)
       .map(([dir, value]) => `${marginOrPadding}-${dir}: ${toPixelString(value)}`)
       .join(';');
 
     return css(style);
   }
+  return css``;
 };
 
 const createUnits = () => {
+  // eslint-disable-next-line no-restricted-syntax
   for (const unit of units) {
-    // spacing.unit4
+    // eslint-disable-next-line no-unused-vars
     (spacing as any)[`unit${unit}`] = unit;
   }
 };
@@ -304,16 +316,23 @@ const createUnits = () => {
 const createMarginOrPadding = (marginOrPadding: 'margin' | 'padding') => {
   (spacing as any)[marginOrPadding] = getStyle(marginOrPadding);
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const unit of units) {
+    // eslint-disable-next-line no-unused-vars
     (spacing as any)[`${marginOrPadding}${unit}`] = getStyle(marginOrPadding, unit);
   }
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const property of properties) {
+    // eslint-disable-next-line no-unused-vars
     (spacing as any)[marginOrPadding][`${property}`] = getStyle(marginOrPadding, property);
   }
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const property of properties) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const unit of units) {
+      // eslint-disable-next-line no-unused-vars
       (spacing as any)[marginOrPadding][`${property}${unit}`] = getStyle(marginOrPadding, { [property]: unit });
     }
   }

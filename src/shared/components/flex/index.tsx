@@ -8,7 +8,7 @@ import {
   HTMLAttributes
 } from 'react';
 
-import flex from '~/shared/styles/flex';
+import flex from 'shared/styles/flex';
 
 type OptionsDefault = {
   alignItems?: CSSProperties['alignItems'];
@@ -49,8 +49,34 @@ type FlexComponent<T extends Options | undefined = undefined> = ForwardRefExotic
   PropsWithoutRef<Props<T>> & RefAttributes<HTMLDivElement>
 >;
 
-const createFlexComponent = <T extends Options | undefined = undefined>(options: T): FlexComponent<T> =>
-  forwardRef<HTMLDivElement, Props<T>>(
+const styles = {
+  container: ({
+    direction,
+    alignItems,
+    justifyContent,
+    wrap,
+    columnGap,
+    rowGap
+  }: {
+    direction: CSSProperties['flexDirection'];
+    alignItems: CSSProperties['alignItems'];
+    justifyContent: CSSProperties['justifyContent'];
+    wrap: CSSProperties['flexWrap'];
+    rowGap: CSSProperties['rowGap'];
+    columnGap: CSSProperties['columnGap'];
+  }) => css`
+    ${flex.display};
+    ${flex.direction(direction)};
+    ${flex.alignItems(alignItems)};
+    ${flex.justifyContent(justifyContent)};
+    ${flex.wrap(wrap)};
+    ${flex.columnGap(columnGap)};
+    ${flex.rowGap(rowGap)};
+  `
+};
+
+const createFlexComponent = <T extends Options | undefined = undefined>(options: T): FlexComponent<T> => {
+  const Component = forwardRef<HTMLDivElement, Props<T>>(
     ({ wrap = 'nowrap', rowGap = 'normal', columnGap = 'normal', ...props }, ref) => {
       const {
         direction: propsDirection,
@@ -82,39 +108,16 @@ const createFlexComponent = <T extends Options | undefined = undefined>(options:
     }
   );
 
-const styles = {
-  container: ({
-    direction,
-    alignItems,
-    justifyContent,
-    wrap,
-    columnGap,
-    rowGap
-  }: {
-    direction: CSSProperties['flexDirection'];
-    alignItems: CSSProperties['alignItems'];
-    justifyContent: CSSProperties['justifyContent'];
-    wrap: CSSProperties['flexWrap'];
-    rowGap: CSSProperties['rowGap'];
-    columnGap: CSSProperties['columnGap'];
-  }) => css`
-    ${flex.display};
-    ${flex.direction(direction)};
-    ${flex.alignItems(alignItems)};
-    ${flex.justifyContent(justifyContent)};
-    ${flex.wrap(wrap)};
-    ${flex.columnGap(columnGap)};
-    ${flex.rowGap(rowGap)};
-  `
+  Component.displayName = 'FlexComponent';
+  return Component;
 };
 
-type Flex = FlexComponent & {
+const Flex = createFlexComponent(undefined) as FlexComponent & {
   Center: FlexComponent<Options>;
   CenterVertical: FlexComponent<Options>;
   CenterHorizontal: FlexComponent<Options>;
 };
 
-const Flex: Flex = createFlexComponent(undefined) as Flex;
 Flex.Center = createFlexComponent({
   alignItems: 'center',
   justifyContent: 'center'
