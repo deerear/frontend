@@ -1,15 +1,12 @@
-name: CI/CD Workflow
+name: CD Workflow
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
@@ -31,66 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Install Cypress
-        run: npx cypress install
-
-  validate:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
-
-      - name: Install pnpm
-        run: sudo corepack enable
-
-      - name: Restore pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Lint code
-        run: pnpm run lint
-
-  test-unit:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
-
-      - name: Install pnpm
-        run: sudo corepack enable
-
-      - name: Restore pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Install Jest
-        run: pnpm install -D ts-jest @types/jest
-
-      - name: Run Jest tests
-        run: pnpm run test:unit
-
-  build:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
-
-      - name: Install pnpm
-        run: sudo corepack enable
-
-      - name: Restore pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Build the project
         run: pnpm run build
