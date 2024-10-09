@@ -6,14 +6,13 @@ const getRefreshToken = () => localStorage.getItem('refreshToken');
 const setAccessToken = (token: string) => localStorage.setItem('accessToken', token);
 const setRefreshToken = (token: string) => localStorage.setItem('refreshToken', token);
 
-const apiClient = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const instance = axios.create({
+  baseURL: baseURL + 'api'
 });
 
-apiClient.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
     if (token) {
@@ -26,7 +25,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-apiClient.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -54,7 +53,7 @@ apiClient.interceptors.response.use(
           setRefreshToken(newRefreshToken);
 
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return apiClient(originalRequest);
+          return instance(originalRequest);
         } catch (refreshError) {
           console.error('Token refresh failed:', refreshError);
           window.location.href = '/login';
@@ -68,7 +67,7 @@ apiClient.interceptors.response.use(
 
 export const signIn = async (email: string, password: string) => {
   try {
-    const response = await apiClient.post('/members/sign-in', {
+    const response = await instance.post('/members/sign-in', {
       email,
       password
     });
@@ -83,7 +82,7 @@ export const signIn = async (email: string, password: string) => {
 
 export const signUp = async (email: string, password: string, nickname: string) => {
   try {
-    const response = await apiClient.post('/members/sign-up', {
+    const response = await instance.post('/members/sign-up', {
       email,
       password,
       nickname
@@ -99,7 +98,7 @@ export const signUp = async (email: string, password: string, nickname: string) 
 
 export const refreshAccessToken = async (refreshToken: string) => {
   try {
-    const response = await apiClient.post(
+    const response = await instance.post(
       '/token/refresh',
       { refreshToken },
       {
@@ -117,4 +116,4 @@ export const refreshAccessToken = async (refreshToken: string) => {
   }
 };
 
-export default apiClient;
+export default instance;
