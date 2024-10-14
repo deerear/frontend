@@ -30,13 +30,6 @@ type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {};
 
-export const Checkbox: Story = {
-  args: {
-    type: 'checkbox',
-    value: 'checked'
-  }
-};
-
 export const Disabled: Story = {
   args: {
     disabled: true

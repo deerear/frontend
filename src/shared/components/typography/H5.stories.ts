@@ -19,7 +19,7 @@ type Story = StoryObj<typeof H5>;
 
 export const Heading5: Story = {
   args: {
-    children: 'This is a Heading 1',
+    children: 'This is a Heading 5',
     color: '#000'
   }
 };

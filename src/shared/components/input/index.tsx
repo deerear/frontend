@@ -21,14 +21,13 @@ const styles = {
     height: ${height ? toPixelString(height) : 'auto'};
   `,
   input: css`
-    width: 100%;
     padding: 8px;
     border: 1px solid #c4c4c4;
-    padding: 8px;
     border-radius: 10px;
     background-color: white;
     font-size: 1rem;
     outline: none;
+    width: 100%;
   `,
   disabled: css`
     background-color: ${colors.disabled100};
@@ -49,12 +48,9 @@ const Input: FC<InputProps> = ({
   return (
     <Flex direction='column' alignItems='flex-start' rowGap='12px'>
       {!hideLabel && <Label text={label} fontSize='1.25rem' color={labelColor} />}
-      <input
-        css={[styles.container(width, height), styles.input, disabled && styles.disabled]}
-        type={type}
-        disabled={disabled}
-        {...props}
-      />
+      <div css={styles.container(width, height)}>
+        <input css={[styles.input, disabled && styles.disabled]} type={type} disabled={disabled} {...props} />
+      </div>
     </Flex>
   );
 };
