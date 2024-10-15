@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import type { Page } from '~/shared/types';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -13,11 +15,11 @@ const queryClient = new QueryClient({
   }
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps & { Component: Page }) {
   return (
     <QueryClientProvider client={queryClient}>
       <div className='container'>
-        <Component {...pageProps} />
+        {Component.layout ? Component.layout(<Component {...pageProps} />) : <Component {...pageProps} />}
       </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
