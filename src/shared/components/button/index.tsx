@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
+import toPixelString from 'shared/styles/toPixelString';
+import spacing from 'shared/styles/spacing';
+import type { PixelValue } from 'shared/styles/types';
+
 import StandardButton from './standard-button';
 import OutlinedButton from './outlined-button';
 import TextButton from './text-button';
@@ -107,5 +111,41 @@ const styles = {
     }
   `
 };
+
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ variant = 'standard', size = 'medium', color = 'primary', ...props }, ref) => {
+    if (variant === 'outlined') {
+      return (
+        <OutlinedButton
+          css={styles.container({
+            width: props.width,
+            height: props.height,
+            size
+          })}
+          color={color}
+          {...props}
+          ref={ref}
+        />
+      );
+    }
+
+    const { rounded, ...restProps } = props;
+
+    return (
+      <StandardButton
+        css={styles.container({
+          width: props.width,
+          height: props.height,
+          size
+        })}
+        color={color}
+        rounded={rounded}
+        {...restProps}
+        ref={ref}
+      />
+    );
+  }
+);
+Button.displayName = 'Button';
 
 export default Button;
