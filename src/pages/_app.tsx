@@ -2,6 +2,8 @@ import '../app/globals.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,7 +18,9 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <div className='container'>
+        <Component {...pageProps} />
+      </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

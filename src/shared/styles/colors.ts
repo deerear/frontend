@@ -1,5 +1,7 @@
 const colors = {
   primary900: '#1C1C1C',
+  primary800: '#333333',
+  primary700: '#4C4C4C',
   neutral0: '#ffffff',
   neutral100: '#f2f2f2',
   neutral200: '#e6e6e6',
