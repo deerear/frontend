@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
+import colors from 'shared/styles/colors';
 import StackComponent from '.';
-
-import colors from '~/shared/styles/colors';
 
 const meta: Meta<typeof StackComponent> = {
   title: 'components/Stack',

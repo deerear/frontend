@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import colors from 'shared/styles/colors';
 import ItemComponent from '.';
 import Stack from '..';
-
-import colors from '~/shared/styles/colors';
 
 const meta: Meta<typeof ItemComponent> = {
   title: 'components/Stack/Item',
@@ -41,7 +40,7 @@ const meta: Meta<typeof ItemComponent> = {
         </div>
       </ItemComponent>
       <ItemComponent
-        flex={'none'}
+        flex='none'
         style={{
           backgroundColor: colors.neutral300
         }}

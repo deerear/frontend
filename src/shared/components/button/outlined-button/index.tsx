@@ -1,15 +1,10 @@
 import { css } from '@emotion/react';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
-
-import colors from '~/shared/styles/colors';
+import colors from 'shared/styles/colors';
 
 type Props = {
   color?: 'primary' | 'neutral';
 } & ButtonHTMLAttributes<HTMLButtonElement>;
-
-const OutlinedButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
-  return <button css={styles.container({ color, disabled: props.disabled })} {...props} ref={ref} />;
-});
 
 const styles = {
   container: ({ color, disabled }: { color: 'primary' | 'neutral'; disabled: boolean | undefined }) => css`
@@ -35,5 +30,11 @@ const styles = {
     `}
   `
 };
+
+const OutlinedButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => (
+  <button css={styles.container({ color, disabled: props.disabled })} {...props} ref={ref} type='button' />
+));
+
+OutlinedButton.displayName = 'OutlinedButton';
 
 export default OutlinedButton;
