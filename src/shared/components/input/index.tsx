@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { FC, InputHTMLAttributes } from 'react';
+import { FC, InputHTMLAttributes, forwardRef } from 'react';
 import Flex from '../flex';
 import Label from '~/shared/components/label';
 import toPixelString from '~/shared/styles/toPixelString';
@@ -12,6 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: number | string;
   height?: number | string;
   value?: string | number;
+  defaultValue?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -35,24 +36,25 @@ const styles = {
   `
 };
 
-const Input: FC<InputProps> = ({
-  label,
-  hideLabel,
-  labelColor = 'black',
-  disabled,
-  width,
-  height,
-  type = 'text',
-  ...props
-}) => {
-  return (
-    <Flex direction='column' alignItems='flex-start' rowGap='12px'>
-      {!hideLabel && <Label text={label} fontSize='1.25rem' color={labelColor} />}
-      <div css={styles.container(width, height)}>
-        <input css={[styles.input, disabled && styles.disabled]} type={type} disabled={disabled} {...props} />
-      </div>
-    </Flex>
-  );
-};
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, hideLabel, labelColor = 'black', disabled, width, height, type = 'text', ...props }, ref) => {
+    return (
+      <Flex direction='column' alignItems='flex-start' rowGap='12px'>
+        {!hideLabel && <Label text={label} fontSize='1.25rem' color={labelColor} />}
+        <div css={styles.container(width, height)}>
+          <input
+            ref={ref}
+            css={[styles.input, disabled && styles.disabled]}
+            type={type}
+            disabled={disabled}
+            {...props}
+          />
+        </div>
+      </Flex>
+    );
+  }
+);
+
+Input.displayName = 'Input';
 
 export default Input;
