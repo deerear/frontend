@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,7 +18,9 @@
     "jsxImportSource": "@emotion/react",
     "incremental": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": [
+        "./src/*"
+      ]
     },
     "baseUrl": "src",
     "target": "es5",
@@ -31,7 +37,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "cypress/cypress.config.js",
+    "src/shared/components/typography"
+  ],
+  "exclude": [
+    "node_modules",
     "jest.setup.js"
   ],
-  "exclude": ["node_modules"]
 }
