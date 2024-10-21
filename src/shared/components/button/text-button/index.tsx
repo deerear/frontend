@@ -7,10 +7,6 @@ import colors from '~/shared/styles/colors';
 
 type Props = { color: Color | undefined } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const TextButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
-  return <button ref={ref} css={styles.container({ color })} {...props} />;
-});
-
 const styles = {
   container: ({ color }: { color: Color }) => css`
     border: none;
@@ -34,5 +30,11 @@ const styles = {
     }
   `
 };
+
+const TextButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
+  return <button ref={ref} css={styles.container({ color })} {...props} />;
+});
+
+TextButton.displayName = 'TextButton';
 
 export default TextButton;

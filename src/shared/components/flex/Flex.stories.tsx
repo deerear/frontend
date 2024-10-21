@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import colors from 'shared/styles/colors';
+import colors from '~/shared/styles/colors';
 import FlexComponent from '.';
 
 const meta: Meta<typeof FlexComponent> = {
