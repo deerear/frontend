@@ -7,36 +7,54 @@ import type { PixelValue } from 'shared/styles/types';
 
 import StandardButton from './standard-button';
 import OutlinedButton from './outlined-button';
+import TextButton from './text-button';
 
-type PropsDefault = {
-  variant?: 'standard' | 'outlined';
-  color?: 'primary' | 'neutral';
-  size?: 'small' | 'medium' | 'large';
+import toPixelString from '~/shared/styles/toPixelString';
+import spacing from '~/shared/styles/spacing';
+import type { PixelValue } from '~/shared/styles/types';
+
+import type { Color, Shape, Size, Variant } from './types';
+
+type Props = {
+  variant?: Variant;
+  size?: Size;
+  shape?: Shape;
   width?: PixelValue;
   height?: PixelValue;
+  color?: Color;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-type PropsStandard = {
-  variant?: 'standard';
-  rounded?: boolean;
-};
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ variant = 'standard', size = 'medium', color = 'primary', shape = 'default', ...props }, ref) => {
+    const Component = { standard: StandardButton, outlined: OutlinedButton, text: TextButton }[variant];
 
-type PropsOutlined = {
-  variant: 'outlined';
-  rounded?: never;
-};
-
-type Props = PropsDefault & (PropsStandard | PropsOutlined);
+    return (
+      <Component
+        css={styles.container({
+          width: props.width,
+          height: props.height,
+          shape,
+          size
+        })}
+        color={color}
+        {...props}
+        ref={ref}
+      />
+    );
+  }
+);
 
 const styles = {
   container: ({
     width,
     height,
+    shape,
     size
   }: {
     width: PixelValue | undefined;
     height: PixelValue | undefined;
-    size: 'small' | 'medium' | 'large';
+    shape: Shape;
+    size: Size;
   }) => css`
     font-family: inherit;
     font-weight: 500;
@@ -75,8 +93,21 @@ const styles = {
           }[size]};
         `}
 
-    :active {
-      transform: scale(0.95);
+    ${{
+      rounded: css`
+        border-radius: 25px;
+      `,
+      circle: css`
+        border-radius: 50%;
+        aspect-ratio: 1;
+      `,
+      default: css`
+        border-radius: 5px;
+      `
+    }[shape]}
+
+    :disabled {
+      cursor: not-allowed;
     }
   `
 };

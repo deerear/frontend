@@ -1,13 +1,20 @@
 import { css } from '@emotion/react';
-import { ButtonHTMLAttributes, forwardRef } from 'react';
-import colors from 'shared/styles/colors';
+
+import { type ButtonHTMLAttributes, forwardRef } from 'react';
+
+import colors from '~/shared/styles/colors';
+import type { Color } from '../types';
 
 type Props = {
-  color?: 'primary' | 'neutral';
+  color: Color | undefined;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
+const OutlinedButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
+  return <button css={styles.container({ color })} {...props} ref={ref} />;
+});
+
 const styles = {
-  container: ({ color, disabled }: { color: 'primary' | 'neutral'; disabled: boolean | undefined }) => css`
+  container: ({ color }: { color: Color }) => css`
     box-sizing: border-box;
     color: ${{
       primary: colors.primary900,
@@ -22,12 +29,19 @@ const styles = {
     }[color]};
     border-radius: 5px;
 
-    ${disabled &&
-    css`
+    :hover {
+      background-color: ${colors.neutral100};
+    }
+
+    :active {
+      background-color: ${colors.neutral200};
+    }
+
+    :disabled {
       color: ${colors.disabled500};
       border-color: ${colors.disabled500};
       background-color: ${colors.disabled100};
-    `}
+    }
   `
 };
 
