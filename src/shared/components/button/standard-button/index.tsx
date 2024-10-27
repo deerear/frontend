@@ -4,20 +4,11 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
 import colors from '~/shared/styles/colors';
 
-import { ButtonHTMLAttributes, forwardRef } from 'react';
-import colors from 'shared/styles/colors';
-
-
 import type { Color } from '../types';
 
 type Props = {
   color: Color | undefined;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
-
-
-const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
-  return <button css={styles.container({ color })} {...props} ref={ref} />;
-});
 
 const styles = {
   container: ({ color }: { color: Color }) => css`
@@ -60,9 +51,9 @@ const styles = {
   `
 };
 
-const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', rounded = false, ...props }, ref) => (
-  <button css={styles.container({ color, rounded, disabled: props.disabled })} {...props} ref={ref} type='button' />
-));
+const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
+  return <button css={styles.container({ color })} {...props} ref={ref} />;
+});
 
 StandardButton.displayName = 'StandardButton';
 

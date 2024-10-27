@@ -1,17 +1,13 @@
 import { css } from '@emotion/react';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
-import toPixelString from 'shared/styles/toPixelString';
-import spacing from 'shared/styles/spacing';
-import type { PixelValue } from 'shared/styles/types';
+import toPixelString from '~/shared/styles/toPixelString';
+import spacing from '~/shared/styles/spacing';
+import type { PixelValue } from '~/shared/styles/types';
 
 import StandardButton from './standard-button';
 import OutlinedButton from './outlined-button';
 import TextButton from './text-button';
-
-import toPixelString from '~/shared/styles/toPixelString';
-import spacing from '~/shared/styles/spacing';
-import type { PixelValue } from '~/shared/styles/types';
 
 import type { Color, Shape, Size, Variant } from './types';
 
@@ -23,26 +19,6 @@ type Props = {
   height?: PixelValue;
   color?: Color;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
-
-const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ variant = 'standard', size = 'medium', color = 'primary', shape = 'default', ...props }, ref) => {
-    const Component = { standard: StandardButton, outlined: OutlinedButton, text: TextButton }[variant];
-
-    return (
-      <Component
-        css={styles.container({
-          width: props.width,
-          height: props.height,
-          shape,
-          size
-        })}
-        color={color}
-        {...props}
-        ref={ref}
-      />
-    );
-  }
-);
 
 const styles = {
   container: ({
@@ -113,39 +89,25 @@ const styles = {
 };
 
 const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ variant = 'standard', size = 'medium', color = 'primary', ...props }, ref) => {
-    if (variant === 'outlined') {
-      return (
-        <OutlinedButton
-          css={styles.container({
-            width: props.width,
-            height: props.height,
-            size
-          })}
-          color={color}
-          {...props}
-          ref={ref}
-        />
-      );
-    }
-
-    const { rounded, ...restProps } = props;
+  ({ variant = 'standard', size = 'medium', color = 'primary', shape = 'default', ...props }, ref) => {
+    const Component = { standard: StandardButton, outlined: OutlinedButton, text: TextButton }[variant];
 
     return (
-      <StandardButton
+      <Component
         css={styles.container({
           width: props.width,
           height: props.height,
+          shape,
           size
         })}
         color={color}
-        rounded={rounded}
-        {...restProps}
+        {...props}
         ref={ref}
       />
     );
   }
 );
+
 Button.displayName = 'Button';
 
 export default Button;

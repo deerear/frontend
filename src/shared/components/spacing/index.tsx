@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import toPixelString from 'shared/styles/toPixelString';
-import type { PixelValue } from 'shared/styles/types';
+import toPixelString from '~/shared/styles/toPixelString';
+import type { PixelValue } from '~/shared/styles/types';
 
 type Props = {
   direction: 'vertical' | 'horizontal';

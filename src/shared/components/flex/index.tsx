@@ -8,7 +8,7 @@ import {
   HTMLAttributes
 } from 'react';
 
-import flex from 'shared/styles/flex';
+import flex from '~/shared/styles/flex';
 
 type OptionsDefault = {
   alignItems?: CSSProperties['alignItems'];

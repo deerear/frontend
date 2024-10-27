@@ -1,7 +1,7 @@
 import { CSSProperties, forwardRef, HTMLAttributes } from 'react';
 import { css } from '@emotion/react';
-import gutter from 'shared/styles/gutter';
-import type { PixelValue } from 'shared/styles/types';
+import gutter from '~/shared/styles/gutter';
+import type { PixelValue } from '~/shared/styles/types';
 import Flex from '../flex';
 import Item from './item';
 
