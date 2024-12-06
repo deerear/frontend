@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
-import { FC, InputHTMLAttributes, forwardRef } from 'react';
-import Flex from '../flex';
+import { InputHTMLAttributes, forwardRef } from 'react';
 import Label from '~/shared/components/label';
 import toPixelString from '~/shared/styles/toPixelString';
 import colors from '~/shared/styles/colors';
+import Flex from '../flex';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -13,6 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   height?: number | string;
   value?: string | number;
   defaultValue?: string | number;
+  // eslint-disable-next-line
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,11 +25,12 @@ const styles = {
   input: css`
     padding: 8px;
     border: 1px solid #c4c4c4;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
     font-size: 1rem;
     outline: none;
     width: 100%;
+    height: 40px;
   `,
   disabled: css`
     background-color: ${colors.disabled100};
@@ -37,24 +39,15 @@ const styles = {
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, hideLabel, labelColor = 'black', disabled, width, height, type = 'text', ...props }, ref) => {
-    return (
-      <Flex direction='column' alignItems='flex-start' rowGap='12px'>
-        {!hideLabel && <Label text={label} fontSize='1.25rem' color={labelColor} />}
-        <div css={styles.container(width, height)}>
-          <input
-            ref={ref}
-            css={[styles.input, disabled && styles.disabled]}
-            type={type}
-            disabled={disabled}
-            {...props}
-          />
-        </div>
-      </Flex>
-    );
-  }
+  ({ label, hideLabel, labelColor = 'black', disabled, width = '100%', height, type = 'text', ...props }, ref) => (
+    <Flex direction='column' alignItems='flex-start' rowGap='12px' style={{ width: '100%' }}>
+      {!hideLabel && <Label text={label} fontSize='1rem' color={labelColor} />}
+      <div css={styles.container(width, height)}>
+        <input ref={ref} css={[styles.input, disabled && styles.disabled]} type={type} disabled={disabled} {...props} />
+      </div>
+    </Flex>
+  )
 );
-
 Input.displayName = 'Input';
 
 export default Input;

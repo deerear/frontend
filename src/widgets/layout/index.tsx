@@ -5,9 +5,9 @@ import Content from './content';
 
 type Props = { children: ReactNode };
 
-const LayoutComponent = (props: Props) => {
+function LayoutComponent(props: Props) {
   return props.children;
-};
+}
 
 type LayoutType = typeof LayoutComponent & { Header: typeof Header; Content: typeof Content };
 
