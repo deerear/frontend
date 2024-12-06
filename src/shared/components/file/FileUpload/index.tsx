@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import { useState, ChangeEvent, useRef, FC } from 'react';
 import Flex from '../../flex';
 import Label from '../../label';
-import Input from '../../input';
 
 interface UploadedFile {
   file: File;
 }
 
 interface FileUploadProps {
+  // eslint-disable-next-line
   onImagesChange: (files: File[]) => void;
 }
 
@@ -65,9 +65,8 @@ const styles = {
   `
 };
 
-const FileUpload: FC<FileUploadProps> = ({ onImagesChange }) => {
+const FileUpload: FC<FileUploadProps> = function FileUpload({ onImagesChange }) {
   const [images, setImages] = useState<UploadedFile[]>([]);
-  const [description, setDescription] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -85,10 +84,6 @@ const FileUpload: FC<FileUploadProps> = ({ onImagesChange }) => {
     onImagesChange(updatedImages.map((image) => image.file));
   };
 
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
-
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
@@ -97,7 +92,7 @@ const FileUpload: FC<FileUploadProps> = ({ onImagesChange }) => {
     <Flex direction='column' alignItems='flex-start'>
       <Label text='사진' fontSize='1rem' color='black' />
       <div css={styles.container}>
-        <div css={styles.uploadBox} onClick={handleUploadClick}>
+        <button css={styles.uploadBox} onClick={handleUploadClick} type='button'>
           +
           <input
             type='file'
@@ -107,11 +102,11 @@ const FileUpload: FC<FileUploadProps> = ({ onImagesChange }) => {
             style={{ display: 'none' }}
             onChange={handleFileChange}
           />
-        </div>
+        </button>
         {images.map((image, index) => (
-          <div key={index} css={styles.previewImageContainer}>
+          <div key={image.file.lastModified} css={styles.previewImageContainer}>
             <img src={URL.createObjectURL(image.file)} alt={`Uploaded preview ${index}`} css={styles.previewImage} />
-            <button css={styles.deleteButton} onClick={() => handleDeleteImage(index)}>
+            <button css={styles.deleteButton} onClick={() => handleDeleteImage(index)} type='button'>
               x
             </button>
           </div>

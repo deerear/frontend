@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
+import Router from 'next/router';
 
 import Avatar from '~/shared/components/avatar';
 
 import flex from '~/shared/styles/flex';
 import spacing from '~/shared/styles/spacing';
-
-type Props = {};
 
 const styles = {
   container: css`
@@ -24,14 +23,25 @@ const styles = {
   `
 };
 
-const Header = (props: Props) => {
+function Header() {
   return (
     <header css={styles.container}>
-      <div className='brand'>Dearear</div>
+      <div
+        className='brand'
+        role='button'
+        tabIndex={0}
+        onClick={() => Router.push('/')}
+        onKeyDown={() => Router.push('/')}
+        css={css`
+          cursor: pointer;
+        `}
+      >
+        Dearear
+      </div>
       <Avatar />
     </header>
   );
-};
+}
 
 Header.displayName = 'Header';
 

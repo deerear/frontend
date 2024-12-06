@@ -1,22 +1,15 @@
 import { css } from '@emotion/react';
 
 import toPixelString from '~/shared/styles/toPixelString';
-
+import useAuthStore from '~/shared/store';
 import type { PixelValue } from '~/shared/styles/types';
+import Router from 'next/router';
 
 type Props = {
   shape?: 'circle' | 'square';
   size?: 'small' | 'medium' | 'large' | PixelValue;
   src?: string;
   alt?: string;
-};
-
-const Avatar = ({ shape = 'circle', size = 'medium', ...props }: Props) => {
-  return (
-    <span css={styles.container({ size, shape })}>
-      <img src={props.src ?? '/avatar.png'} alt={props.alt ?? 'avatar'} />
-    </span>
-  );
 };
 
 const styles = {
@@ -63,5 +56,30 @@ const styles = {
     }
   `
 };
+
+function Avatar({ shape = 'circle', size = 'medium', ...props }: Props) {
+  const { isLoggedIn } = useAuthStore();
+
+  const handleClickAvatar = () => {
+    if (!isLoggedIn) {
+      alert('로그인이 필요한 서비스입니다.');
+      Router.push('/sign-in');
+    } else {
+      Router.push('/my-page');
+    }
+  };
+
+  return (
+    <span
+      css={styles.container({ size, shape })}
+      onKeyDown={handleClickAvatar}
+      onClick={handleClickAvatar}
+      tabIndex={0}
+      role='button'
+    >
+      <img src={props.src ?? '/avatar.png'} alt={props.alt ?? 'avatar'} />
+    </span>
+  );
+}
 
 export default Avatar;

@@ -1,9 +1,12 @@
-import '../app/globals.css';
+import '~/app/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { config } from '@fortawesome/fontawesome-svg-core';
 import type { Page } from '~/shared/types';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import FloatingButton from '~/shared/components/button/FloatingButton';
+
 config.autoAddCss = false;
 
 const queryClient = new QueryClient({
@@ -21,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps & { Component: Pa
     <QueryClientProvider client={queryClient}>
       <div className='container'>
         {Component.layout ? Component.layout(<Component {...pageProps} />) : <Component {...pageProps} />}
+        <FloatingButton />
       </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

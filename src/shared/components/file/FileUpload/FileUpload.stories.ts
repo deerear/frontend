@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import FileUpload from '../FileUpload';
+import FileUpload from '.';
 
 type FileUploadProps = React.ComponentProps<typeof FileUpload>;
 

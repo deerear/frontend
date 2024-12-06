@@ -51,9 +51,9 @@ const styles = {
   `
 };
 
-const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
-  return <button css={styles.container({ color })} {...props} ref={ref} />;
-});
+const StandardButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', type = 'button', ...props }, ref) => (
+  <button css={styles.container({ color })} type={type === 'submit' ? 'submit' : 'button'} {...props} ref={ref} />
+));
 
 StandardButton.displayName = 'StandardButton';
 

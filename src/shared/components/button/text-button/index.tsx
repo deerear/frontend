@@ -1,9 +1,7 @@
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 import { css } from '@emotion/react';
-
-import type { Color } from '../types';
-
 import colors from '~/shared/styles/colors';
+import type { Color } from '../types';
 
 type Props = { color: Color | undefined } & ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -31,10 +29,9 @@ const styles = {
   `
 };
 
-const TextButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', ...props }, ref) => {
-  return <button ref={ref} css={styles.container({ color })} {...props} />;
-});
-
+const TextButton = forwardRef<HTMLButtonElement, Props>(({ color = 'primary', type = 'button', ...props }, ref) => (
+  <button ref={ref} css={styles.container({ color })} type={type === 'submit' ? 'submit' : 'button'} {...props} />
+));
 TextButton.displayName = 'TextButton';
 
 export default TextButton;
